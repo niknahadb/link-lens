@@ -1,5 +1,5 @@
 const cache = new Map();
-const OPENAI_KEY = "";
+const OPENAI_KEY = "key-here";
 
 chrome.runtime.onMessage.addListener((msg, _, send) => {
   if (msg.type === "ANALYSE") {
@@ -38,15 +38,10 @@ async function summarise(url, intent) {
   const entry = cache.get(key) || (await analyse(url, intent));
   if (entry.summary) return entry.summary;
 
-  try {
-    const promptChunks = entry.snippets.join("\n\n");
-    const summary = await callGPT(promptChunks, intent);
-    entry.summary = summary;
-    return summary;
-  } catch (e) {
-    console.error("AI error", e);
-    throw new Error("ai-failed");
-  }
+  const promptChunks = entry.snippets.join("\n\n");
+  const summary = await callGPT(promptChunks, intent);
+  entry.summary = summary;
+  return summary;
 }
 
 function sliceHTML(html, len) {
