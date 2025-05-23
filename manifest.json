@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Link Lens",
+  "description": "Preview link contents before you click.",
+  "version": "0.1.0",
+  "action": { "default_popup": "popup/popup.html" },
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://api.openai.com/*", "http://*/*", "https://*/*"],
+  "background": { "service_worker": "scripts/sw.js" },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/cs.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "assets/icons/16.png",
+    "48": "assets/icons/48.png",
+    "128": "assets/icons/128.png"
+  }
+}
